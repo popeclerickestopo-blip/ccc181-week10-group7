@@ -1,6 +1,6 @@
 
 /* =======================================================================
-   MEMBER 2  | nav.css
+   MEMBER 2 | nav.css
    Navigation bar (Flexbox) + footer (CSS Grid)
    ======================================================================= */
 
@@ -8,12 +8,12 @@
 
 /* NAVBAR */
 
-.site-header {
+ .site-header {
   background: var(--navy);
   color: #fff;
 }
 
-.navbar {
+ .navbar {
   display: flex;
   flex-direction: column;
   padding-block: 0.5rem;
