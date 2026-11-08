@@ -1,0 +1,127 @@
+{
+  "info": {
+    "name": "CampusConnect API",
+    "description": "API testing collection for CampusConnect authentication endpoints.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000/api/v1"
+    },
+    {
+      "key": "token",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "1. Health Check",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/health"
+      }
+    },
+    {
+      "name": "2. Login - Correct Credentials",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "if (pm.response.code === 200) {",
+              "    pm.collectionVariables.set('token', pm.response.json().token);",
+              "}"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"student@campusconnect.test\",\n  \"password\": \"Campus26\"\n}"
+        },
+        "url": "{{baseUrl}}/sessions"
+      }
+    },
+    {
+      "name": "3. Login - Wrong Password",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"student@campusconnect.test\",\n  \"password\": \"WrongPassword\"\n}"
+        },
+        "url": "{{baseUrl}}/sessions"
+      }
+    },
+    {
+      "name": "4. Login - Unknown Email",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"unknown@campusconnect.test\",\n  \"password\": \"Campus26\"\n}"
+        },
+        "url": "{{baseUrl}}/sessions"
+      }
+    },
+    {
+      "name": "5. Login - Empty Body",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{}"
+        },
+        "url": "{{baseUrl}}/sessions"
+      }
+    },
+    {
+      "name": "6. Current User - No Token",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/users/me"
+      }
+    },
+    {
+      "name": "7. Current User - With Token",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "url": "{{baseUrl}}/users/me"
+      }
+    }
+  ]
+}
